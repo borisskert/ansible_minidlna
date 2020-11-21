@@ -56,7 +56,7 @@
           ExecStartPre=-/usr/bin/docker rm -f minidlna.service
           ExecStartPre=/usr/bin/docker build \
             --cache-from local/minidlna:latest \
-            --tag local/minidlna:latest \
+            --tag local/minidlna:1.2.1 \
             /opt/my_minidlna/docker
 
           ExecStart=/usr/bin/docker run --name minidlna.service \
@@ -65,7 +65,9 @@
             --volume /srv/my_minidlna/media/music:/opt/Music:ro \
             --volume /srv/my_minidlna/media/videos:/opt/Videos:ro \
             --volume /srv/my_minidlna/media/pictures:/opt/Pictures:ro \
-            local/minidlna:latest
+            --volume /srv/my_minidlna/cache:/var/cache/minidlna \
+            --volume /srv/my_minidlna/log:/var/log \
+            local/minidlna:1.2.1
 
           ExecStop=/usr/bin/docker stop minidlna.service
           ExecStopPost=-/usr/bin/docker rm -f minidlna.service
@@ -73,6 +75,17 @@
           Restart=always
           RestartSec=60s
           TimeoutSec=3600
+
+    - name: Should create config volume
+      stat:
+        path: /srv/my_minidlna/config
+      register: minidlna_config_volume_directory
+      failed_when: not (
+        minidlna_config_volume_directory.stat.exists
+        and minidlna_config_volume_directory.stat.pw_name == 'root'
+        and minidlna_config_volume_directory.stat.gr_name == 'root'
+        and minidlna_config_volume_directory.stat.mode == '0750'
+        )
 
     - name: Should create minidlna config file
       slurp:
@@ -90,6 +103,10 @@
 
           friendly_name=My DLNA Server
 
+          db_dir=/var/cache/minidlna
+
+          log_dir=/var/log
+
           album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
 
           inotify=yes
@@ -104,3 +121,25 @@
 
           serial=75296493
           model_number=3
+
+    - name: Should create database volume
+      stat:
+        path: /srv/my_minidlna/cache
+      register: minidlna_database_volume_directory
+      failed_when: not (
+        minidlna_database_volume_directory.stat.exists
+        and minidlna_database_volume_directory.stat.pw_name == 'root'
+        and minidlna_database_volume_directory.stat.gr_name == 'root'
+        and minidlna_database_volume_directory.stat.mode == '0750'
+        )
+
+    - name: Should create log volume
+      stat:
+        path: /srv/my_minidlna/log
+      register: minidlna_log_volume_directory
+      failed_when: not (
+        minidlna_log_volume_directory.stat.exists
+        and minidlna_log_volume_directory.stat.pw_name == 'root'
+        and minidlna_log_volume_directory.stat.gr_name == 'root'
+        and minidlna_log_volume_directory.stat.mode == '0750'
+        )

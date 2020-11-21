@@ -10,6 +10,9 @@ minidlna_config_volume_directory: /srv/minidlna/config
 
 minidlna_media_directories: []
 
+minidlna_database_volume_directory: ''
+minidlna_log_volume_directory: ''
+
 minidlna_friendly_name: ''
 minidlna_serial: '12345678'
 minidlna_model_number: 1

@@ -19,6 +19,8 @@
         - name: Pictures
           path: /srv/my_minidlna/media/pictures
           type: P
+      minidlna_database_volume_directory: /srv/my_minidlna/cache
+      minidlna_log_volume_directory: /srv/my_minidlna/log
       minidlna_friendly_name: My DLNA Server
       minidlna_serial: '75296493'
       minidlna_model_number: 3

@@ -12,6 +12,14 @@ media_dir=/opt
 friendly_name={{ minidlna_friendly_name }}
 
 {% endif %}
+{% if minidlna_database_volume_directory is defined and minidlna_database_volume_directory | length > 0 %}
+db_dir=/var/cache/minidlna
+
+{% endif %}
+{% if minidlna_log_volume_directory is defined and minidlna_log_volume_directory | length > 0 %}
+log_dir=/var/log
+
+{% endif %}
 album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
 
 inotify=yes

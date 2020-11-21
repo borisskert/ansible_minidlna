@@ -43,7 +43,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: 0750
 
 - name: Create minidlna config file
   template:
@@ -54,3 +54,23 @@
     mode: 0644
   notify:
     - Restart minidlna service
+
+- name: Create minidlna database directory
+  file:
+    path: "{{ minidlna_database_volume_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+  when: minidlna_database_volume_directory is defined
+    and minidlna_database_volume_directory | length > 0
+
+- name: Create minidlna log directory
+  file:
+    path: "{{ minidlna_log_volume_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+  when: minidlna_log_volume_directory is defined
+    and minidlna_log_volume_directory | length > 0

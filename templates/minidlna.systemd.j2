@@ -10,7 +10,7 @@ Requires=docker.service
 ExecStartPre=-/usr/bin/docker rm -f minidlna.service
 ExecStartPre=/usr/bin/docker build \
   --cache-from local/minidlna:latest \
-  --tag local/minidlna:latest \
+  --tag local/minidlna:{{ minidlna_version }} \
   {{ minidlna_docker_working_directory }}
 
 ExecStart=/usr/bin/docker run --name minidlna.service \
@@ -19,7 +19,13 @@ ExecStart=/usr/bin/docker run --name minidlna.service \
 {% for minidlna_media_directory in minidlna_media_directories %}
   --volume {{ minidlna_media_directory.path }}:/opt/{{ minidlna_media_directory.name }}:ro \
 {% endfor %}
-  local/minidlna:latest
+{% if minidlna_database_volume_directory is defined and minidlna_database_volume_directory | length > 0 %}
+  --volume {{ minidlna_database_volume_directory }}:/var/cache/minidlna \
+{% endif %}
+{% if minidlna_log_volume_directory is defined and minidlna_log_volume_directory | length > 0 %}
+  --volume {{ minidlna_log_volume_directory }}:/var/log \
+{% endif %}
+  local/minidlna:{{ minidlna_version }}
 
 ExecStop=/usr/bin/docker stop minidlna.service
 ExecStopPost=-/usr/bin/docker rm -f minidlna.service
