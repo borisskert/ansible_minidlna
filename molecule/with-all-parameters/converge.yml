@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  roles:
+    - role: ansible_minidlna
+      minidlna_alpine_version: '3.12'
+      minidlna_version: '1.2.1'

@@ -12,7 +12,7 @@
         not dockerfile_file.content == ( expected_content | b64encode )
       vars:
         expected_content: |
-          FROM alpine:3.12
+          FROM alpine
 
           MAINTAINER borisskert <boris.skert@gmail.com>
 
@@ -60,9 +60,6 @@
 
           ExecStart=/usr/bin/docker run --name minidlna.service \
             --net=host \
-            --volume /srv/minidlna/music:/opt/Music \
-            --volume /srv/minidlna/video:/opt/Videos \
-            --volume /srv/minidlna/pictures:/opt/Pictures \
             --volume /srv/minidlna/config/minidlna.conf:/etc/minidlna.conf:ro \
             local/minidlna:latest
 
@@ -83,9 +80,7 @@
         expected_content: |
           port=8200
 
-          media_dir=A,/opt/Music
-          media_dir=V,/opt/Videos
-          media_dir=P,/opt/Pictures
+          media_dir=/opt
 
           album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
 

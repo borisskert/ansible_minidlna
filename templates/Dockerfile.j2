@@ -1,10 +1,18 @@
-FROM alpine:3.12
+{% if minidlna_alpine_version is defined and minidlna_alpine_version != 'latest' %}
+FROM alpine:{{ minidlna_alpine_version }}
+{% else %}
+FROM alpine
+{% endif %}
 
 MAINTAINER borisskert <boris.skert@gmail.com>
 
 RUN apk --no-cache --no-progress upgrade && \
     apk --no-cache --no-progress add \
+{% if minidlna_version is defined and minidlna_version != 'latest' %}
+        minidlna~={{ minidlna_version }}
+{% else %}
         minidlna
+{% endif %}
 
 EXPOSE 1900/udp 8200
 
