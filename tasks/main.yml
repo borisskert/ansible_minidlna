@@ -39,7 +39,7 @@
 
 - name: Create minidlna config directory
   file:
-    path: "/srv/minidlna/config"
+    path: "{{ minidlna_config_volume_directory }}"
     state: directory
     owner: root
     group: root
@@ -48,7 +48,7 @@
 - name: Create minidlna config file
   template:
     src: minidlna.conf.j2
-    dest: "/srv/minidlna/config/minidlna.conf"
+    dest: "{{ minidlna_config_volume_directory }}/minidlna.conf"
     owner: root
     group: root
     mode: 0644

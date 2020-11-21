@@ -6,7 +6,7 @@
   tasks:
     - name: Should template Dockerfile
       slurp:
-        src: /opt/minidlna/docker/Dockerfile
+        src: /opt/my_minidlna/docker/Dockerfile
       register: dockerfile_file
       failed_when:
         not dockerfile_file.content == ( expected_content | b64encode )
@@ -26,7 +26,7 @@
 
     - name: Should create docker entrypoint
       slurp:
-        src: /opt/minidlna/docker/entrypoint.sh
+        src: /opt/my_minidlna/docker/entrypoint.sh
       register: docker_entrypoint_file
       failed_when:
         not docker_entrypoint_file.content == ( expected_content | b64encode )
@@ -56,11 +56,12 @@
           ExecStartPre=-/usr/bin/docker rm -f minidlna.service
           ExecStartPre=/usr/bin/docker build \
             --cache-from local/minidlna:latest \
-            --tag local/minidlna:latest /opt/minidlna/docker
+            --tag local/minidlna:latest \
+            /opt/my_minidlna/docker
 
           ExecStart=/usr/bin/docker run --name minidlna.service \
             --net=host \
-            --volume /srv/minidlna/config/minidlna.conf:/etc/minidlna.conf:ro \
+            --volume /srv/my_minidlna/config/minidlna.conf:/etc/minidlna.conf:ro \
             local/minidlna:latest
 
           ExecStop=/usr/bin/docker stop minidlna.service
@@ -72,7 +73,7 @@
 
     - name: Should create minidlna config file
       slurp:
-        src: /srv/minidlna/config/minidlna.conf
+        src: /srv/my_minidlna/config/minidlna.conf
       register: minidlna_config_file
       failed_when:
         not minidlna_config_file.content == ( expected_content | b64encode )

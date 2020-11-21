@@ -7,3 +7,5 @@
     - role: ansible_minidlna
       minidlna_alpine_version: '3.12'
       minidlna_version: '1.2.1'
+      minidlna_docker_working_directory: /opt/my_minidlna/docker
+      minidlna_config_volume_directory: /srv/my_minidlna/config

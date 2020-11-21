@@ -6,3 +6,4 @@ minidlna_docker_working_directory: /opt/minidlna/docker
 minidlna_dockerfile_path: "{{ minidlna_docker_working_directory }}/Dockerfile"
 
 minidlna_service_name: minidlna
+minidlna_config_volume_directory: /srv/minidlna/config

@@ -56,7 +56,8 @@
           ExecStartPre=-/usr/bin/docker rm -f minidlna.service
           ExecStartPre=/usr/bin/docker build \
             --cache-from local/minidlna:latest \
-            --tag local/minidlna:latest /opt/minidlna/docker
+            --tag local/minidlna:latest \
+            /opt/minidlna/docker
 
           ExecStart=/usr/bin/docker run --name minidlna.service \
             --net=host \

@@ -10,11 +10,12 @@ Requires=docker.service
 ExecStartPre=-/usr/bin/docker rm -f minidlna.service
 ExecStartPre=/usr/bin/docker build \
   --cache-from local/minidlna:latest \
-  --tag local/minidlna:latest /opt/minidlna/docker
+  --tag local/minidlna:latest \
+  {{ minidlna_docker_working_directory }}
 
 ExecStart=/usr/bin/docker run --name minidlna.service \
   --net=host \
-  --volume /srv/minidlna/config/minidlna.conf:/etc/minidlna.conf:ro \
+  --volume {{ minidlna_config_volume_directory }}/minidlna.conf:/etc/minidlna.conf:ro \
   local/minidlna:latest
 
 ExecStop=/usr/bin/docker stop minidlna.service
