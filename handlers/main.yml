@@ -1,2 +1,10 @@
 ---
-# handlers file for ansible_minidlna
+- name: Restart minidlna service
+  systemd:
+    name: "{{ minidlna_service_name }}"
+    state: restarted
+    daemon_reload: true
+  when: not (
+    molecule_docker_environment is defined
+    and molecule_docker_environment | bool
+    )

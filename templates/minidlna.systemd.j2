@@ -1,0 +1,27 @@
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=minidlna service
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker rm -f minidlna.service
+ExecStartPre=/usr/bin/docker build \
+  --cache-from local/minidlna:latest \
+  --tag local/minidlna:latest /opt/minidlna/docker
+
+ExecStart=/usr/bin/docker run --name minidlna.service \
+  --net=host \
+  --volume /srv/minidlna/music:/opt/Music \
+  --volume /srv/minidlna/video:/opt/Videos \
+  --volume /srv/minidlna/pictures:/opt/Pictures \
+  local/minidlna:latest
+
+ExecStop=/usr/bin/docker stop minidlna.service
+ExecStopPost=-/usr/bin/docker rm -f minidlna.service
+
+Restart=always
+RestartSec=60s
+TimeoutSec=3600
