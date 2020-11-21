@@ -20,6 +20,8 @@
               apk --no-cache --no-progress add \
                   minidlna
 
+          COPY entrypoint.sh /entrypoint.sh
+
           EXPOSE 1900/udp 8200
 
           ENTRYPOINT [ "/entrypoint.sh" ]

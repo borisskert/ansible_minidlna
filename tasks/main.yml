@@ -74,3 +74,16 @@
     mode: 0750
   when: minidlna_log_volume_directory is defined
     and minidlna_log_volume_directory | length > 0
+
+- name: Start systemd-managed docker containers
+  meta: flush_handlers
+
+- name: Enable/start systemd service (if not started)
+  service:
+    name: "{{ minidlna_service_name }}"
+    enabled: true
+    state: started
+  when: not (
+    molecule_docker_environment is defined
+    and molecule_docker_environment | bool
+    )

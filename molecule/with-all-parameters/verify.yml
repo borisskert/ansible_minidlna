@@ -20,6 +20,8 @@
               apk --no-cache --no-progress add \
                   minidlna~=1.2.1
 
+          COPY entrypoint.sh /entrypoint.sh
+
           EXPOSE 1900/udp 8200
 
           ENTRYPOINT [ "/entrypoint.sh" ]
@@ -142,4 +144,30 @@
         and minidlna_log_volume_directory.stat.pw_name == 'root'
         and minidlna_log_volume_directory.stat.gr_name == 'root'
         and minidlna_log_volume_directory.stat.mode == '0750'
+        )
+
+    - name: Should open 8200/tcp port
+      command: nc -z -w1 localhost 8200
+      changed_when: false
+      register: netcat_8200
+      retries: 300
+      delay: 1
+      until: netcat_8200 is defined
+        and netcat_8200.rc == 0
+      when: not (
+        molecule_docker_environment is defined
+        and molecule_docker_environment | bool
+        )
+
+    - name: Should open 1900/udp port
+      command: nc -z -w1 -u localhost 1900
+      changed_when: false
+      register: netcat_1900
+      retries: 300
+      delay: 1
+      until: netcat_1900 is defined
+        and netcat_1900.rc == 0
+      when: not (
+        molecule_docker_environment is defined
+        and molecule_docker_environment | bool
         )
