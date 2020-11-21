@@ -1,2 +1,17 @@
 ---
-# tasks file for ansible_minidlna
+- name: Create docker working directory
+  file:
+    path: "{{ minidlna_docker_working_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Template dockerfile
+  template:
+    src: Dockerfile.j2
+    dest: "{{ minidlna_dockerfile_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  register: minidlna_dockerfile

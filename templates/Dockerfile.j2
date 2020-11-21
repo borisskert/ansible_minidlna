@@ -1,0 +1,11 @@
+FROM alpine:3.12
+
+MAINTAINER borisskert <boris.skert@gmail.com>
+
+RUN apk --no-cache --no-progress upgrade && \
+    apk --no-cache --no-progress add \
+        minidlna
+
+EXPOSE 1900/udp 8200
+
+ENTRYPOINT [ "/entrypoint.sh" ]

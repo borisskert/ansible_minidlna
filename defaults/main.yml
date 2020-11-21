@@ -1,2 +1,6 @@
 ---
-# defaults file for ansible_minidlna
+minidlna_alpine_version: latest
+minidlna_version: latest
+
+minidlna_docker_working_directory: /opt/minidlna/docker
+minidlna_dockerfile_path: "{{ minidlna_docker_working_directory }}/Dockerfile"
