@@ -88,6 +88,8 @@
           media_dir=V,/opt/Videos
           media_dir=P,/opt/Pictures
 
+          friendly_name=My DLNA Server
+
           album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
 
           inotify=yes
@@ -100,5 +102,5 @@
 
           notify_interval=900
 
-          serial=12345678
-          model_number=1
+          serial=75296493
+          model_number=3
