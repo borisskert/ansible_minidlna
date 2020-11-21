@@ -1,11 +1,39 @@
 ---
 dependency:
   name: galaxy
+  options:
+    role-file: ./molecule/shared/requirements.yml
+
+lint: |
+  set -e
+  yamllint . --strict
+  ansible-lint
+
 driver:
-  name: delegated
+  name: docker
+
 platforms:
-  - name: instance
+  - name: ansible-minidlna-focal
+    image: docker.io/borisskert/python3:focal
+    pull: true
+    pre_build_image: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    groups:
+      - docker
+
 provisioner:
   name: ansible
+  playbooks:
+    prepare: ../shared/prepare.yml
+    converge: ../shared/converge.yml
+    verify: ../shared/verify.yml
+  inventory:
+    group_vars:
+      docker:
+        molecule_docker_environment: true
+      debian:
+        ansible_python_interpreter: /usr/bin/python3
+
 verifier:
   name: ansible
