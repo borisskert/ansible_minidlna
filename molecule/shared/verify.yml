@@ -23,3 +23,15 @@
           EXPOSE 1900/udp 8200
 
           ENTRYPOINT [ "/entrypoint.sh" ]
+
+    - name: Should create docker entrypoint
+      slurp:
+        src: /opt/minidlna/docker/entrypoint.sh
+      register: docker_entrypoint_file
+      failed_when:
+        not docker_entrypoint_file.content == ( expected_content | b64encode )
+      vars:
+        expected_content: |
+          #!/bin/sh
+
+          exec /usr/sbin/minidlnad -S

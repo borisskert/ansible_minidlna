@@ -7,7 +7,7 @@
     group: root
     mode: 0755
 
-- name: Template dockerfile
+- name: Create dockerfile
   template:
     src: Dockerfile.j2
     dest: "{{ minidlna_dockerfile_path }}"
@@ -15,3 +15,12 @@
     group: root
     mode: 0644
   register: minidlna_dockerfile
+
+- name: Create docker entrypoint
+  copy:
+    src: files/entrypoint.sh
+    dest: "{{ minidlna_docker_working_directory }}/entrypoint.sh"
+    owner: root
+    group: root
+    mode: 0755
+  register: minidlna_docker_entrypoint_file
