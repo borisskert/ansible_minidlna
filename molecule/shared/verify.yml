@@ -63,6 +63,7 @@
             --volume /srv/minidlna/music:/opt/Music \
             --volume /srv/minidlna/video:/opt/Videos \
             --volume /srv/minidlna/pictures:/opt/Pictures \
+            --volume /srv/minidlna/config/minidlna.conf:/etc/minidlna.conf:ro \
             local/minidlna:latest
 
           ExecStop=/usr/bin/docker stop minidlna.service
@@ -71,3 +72,32 @@
           Restart=always
           RestartSec=60s
           TimeoutSec=3600
+
+    - name: Should create minidlna config file
+      slurp:
+        src: /srv/minidlna/config/minidlna.conf
+      register: minidlna_config_file
+      failed_when:
+        not minidlna_config_file.content == ( expected_content | b64encode )
+      vars:
+        expected_content: |
+          port=8200
+
+          media_dir=A,/opt/Music
+          media_dir=V,/opt/Videos
+          media_dir=P,/opt/Pictures
+
+          album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
+
+          inotify=yes
+
+          enable_tivo=no
+
+          tivo_discovery=bonjour
+
+          strict_dlna=no
+
+          notify_interval=900
+
+          serial=12345678
+          model_number=1

@@ -17,6 +17,7 @@ ExecStart=/usr/bin/docker run --name minidlna.service \
   --volume /srv/minidlna/music:/opt/Music \
   --volume /srv/minidlna/video:/opt/Videos \
   --volume /srv/minidlna/pictures:/opt/Pictures \
+  --volume /srv/minidlna/config/minidlna.conf:/etc/minidlna.conf:ro \
   local/minidlna:latest
 
 ExecStop=/usr/bin/docker stop minidlna.service

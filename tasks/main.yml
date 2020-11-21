@@ -36,3 +36,21 @@
     mode: 0644
   notify:
     - Restart minidlna service
+
+- name: Create minidlna config directory
+  file:
+    path: "/srv/minidlna/config"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Create minidlna config file
+  template:
+    src: minidlna.conf.j2
+    dest: "/srv/minidlna/config/minidlna.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart minidlna service
