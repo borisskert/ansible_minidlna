@@ -16,6 +16,9 @@ ExecStartPre=/usr/bin/docker build \
 ExecStart=/usr/bin/docker run --name minidlna.service \
   --net=host \
   --volume {{ minidlna_config_volume_directory }}/minidlna.conf:/etc/minidlna.conf:ro \
+{% for minidlna_media_directory in minidlna_media_directories %}
+  --volume {{ minidlna_media_directory.path }}:/opt/{{ minidlna_media_directory.name }}:ro \
+{% endfor %}
   local/minidlna:latest
 
 ExecStop=/usr/bin/docker stop minidlna.service

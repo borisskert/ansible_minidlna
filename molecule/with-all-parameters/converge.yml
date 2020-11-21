@@ -9,3 +9,13 @@
       minidlna_version: '1.2.1'
       minidlna_docker_working_directory: /opt/my_minidlna/docker
       minidlna_config_volume_directory: /srv/my_minidlna/config
+      minidlna_media_directories:
+        - name: Music
+          path: /srv/my_minidlna/media/music
+          type: A
+        - name: Videos
+          path: /srv/my_minidlna/media/videos
+          type: V
+        - name: Pictures
+          path: /srv/my_minidlna/media/pictures
+          type: P

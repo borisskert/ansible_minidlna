@@ -62,6 +62,9 @@
           ExecStart=/usr/bin/docker run --name minidlna.service \
             --net=host \
             --volume /srv/my_minidlna/config/minidlna.conf:/etc/minidlna.conf:ro \
+            --volume /srv/my_minidlna/media/music:/opt/Music:ro \
+            --volume /srv/my_minidlna/media/videos:/opt/Videos:ro \
+            --volume /srv/my_minidlna/media/pictures:/opt/Pictures:ro \
             local/minidlna:latest
 
           ExecStop=/usr/bin/docker stop minidlna.service
@@ -81,7 +84,9 @@
         expected_content: |
           port=8200
 
-          media_dir=/opt
+          media_dir=A,/opt/Music
+          media_dir=V,/opt/Videos
+          media_dir=P,/opt/Pictures
 
           album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
 

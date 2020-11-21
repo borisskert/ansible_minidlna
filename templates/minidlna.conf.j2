@@ -1,6 +1,12 @@
 port=8200
 
+{% if minidlna_media_directories is defined and minidlna_media_directories | length > 0 %}
+{% for minidlna_media_directory in minidlna_media_directories %}
+media_dir={{ minidlna_media_directory.type }},/opt/{{ minidlna_media_directory.name }}
+{% endfor %}
+{% else %}
 media_dir=/opt
+{% endif %}
 
 album_art_names=Cover.jpg/cover.jpg/AlbumArtSmall.jpg/albumartsmall.jpg/AlbumArt.jpg/albumart.jpg/Album.jpg/album.jpg/Folder.jpg/folder.jpg/Thumb.jpg/thumb.jpg
 

@@ -12,3 +12,28 @@
         molecule_docker_environment is defined
         and molecule_docker_environment | bool
         )
+
+  post_tasks:
+    - name: Create music media directory
+      file:
+        path: /srv/my_minidlna/media/music
+        state: directory
+        owner: root
+        group: root
+        mode: 0750
+
+    - name: Create videos media directory
+      file:
+        path: /srv/my_minidlna/media/videos
+        state: directory
+        owner: root
+        group: root
+        mode: 0750
+
+    - name: Create pictures media directory
+      file:
+        path: /srv/my_minidlna/media/pictures
+        state: directory
+        owner: root
+        group: root
+        mode: 0750
